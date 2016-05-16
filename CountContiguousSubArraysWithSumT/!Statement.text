@@ -1,0 +1,8 @@
+Given A[] count the number of contiguous subarrays that sum to a target number T.
+Inp: A = [4, 6, 3, 7, -10]
+Out: 3 => [4, 6] [3, 7] [4, 6, 3, 7, -10]
+
+It has O(N) solution.
+
+The O(N2) is straight forward.
+Hints to get O(N): Solve it for positive numbers then apply a trick.

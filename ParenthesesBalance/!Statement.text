@@ -1,0 +1,4 @@
+Determine if a string of parantheses is well-formed.
+Meaning - every opening can be matched to a closing 
+          && the closing comes after the opening
+          && there are no extra closing.
