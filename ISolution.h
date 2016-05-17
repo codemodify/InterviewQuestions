@@ -5,7 +5,7 @@
 
 #define var auto
 
-template<typename T> 
+template<typename T>
 class ISolution {
     public:
         void SetContext(T newContext) {
@@ -19,18 +19,18 @@ class ISolution {
 };
 
 static void* TheSolutionsInstance = 0;
-#define SolutionList std::vector<ISolution<T>*>
+#define SolutionList(T) std::vector<ISolution<T>*>
 
 template<typename T>
-void Helpers_SetSolutionsList(SolutionList& solutions) {
+void Helpers_SetSolutionsList(SolutionList(T)& solutions) {
     if (TheSolutionsInstance == 0) {
-        TheSolutionsInstance = solutions;
+        TheSolutionsInstance = reinterpret_cast<void*>(&solutions);
     }
 }
 
 template<typename T>
 void Helpers_SetSolutionsContext(T newContext) {
-    SolutionList& solutions = reinterpret_cast<SolutionList>(TheSolutionsInstance);
+    SolutionList(T)& solutions = reinterpret_cast<SolutionList(T)&>(TheSolutionsInstance);
 
     for (var it = solutions.cbegin(); it != solutions.cend(); it++) {
         ISolution<T>* solution = *it;
@@ -40,7 +40,7 @@ void Helpers_SetSolutionsContext(T newContext) {
 
 template<typename T>
 void Helpers_RunSolutions(T ignored) {
-    SolutionList& solutions = reinterpret_cast<SolutionList>(TheSolutionsInstance);
+    SolutionList(T)& solutions = reinterpret_cast<SolutionList(T)&>(TheSolutionsInstance);
 
     for (var it = solutions.cbegin(); it != solutions.cend(); it++) {
         ISolution<T>* solution = *it;

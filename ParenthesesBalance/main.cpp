@@ -13,9 +13,9 @@ int main() {
     std::vector<std::string> parantheses;
     parantheses.push_back("((()))()");
 
-    SolutionList solutions;
+    SolutionList(Context) solutions;
     solutions.push_back(new Solution_ArrayBased());
-    solutions.push_back(new new Solution_StackBased());
+    solutions.push_back(new Solution_StackBased());
 
     Helpers_SetSolutionsList(solutions);
 
