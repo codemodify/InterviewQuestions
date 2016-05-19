@@ -2,36 +2,48 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <functional>
 
 #define var auto
 
-template<typename T>
+struct BoolReturn {
+    bool IsTrue;
+    std::string Message;
+    
+    BoolReturn() {
+        IsTrue = false;
+        Message = "";
+    }
+};
+
+template<typename OutputType, typename InputType>
 class ISolution {
     public:
-        void SetContext(T newContext) {
+        void SetContext(InputType newContext) {
             _context = newContext;
         }
 
-        virtual void Run() = 0;
+        virtual OutputType Run() = 0;
         
     protected:
-        T _context;
+        InputType _context;
 };
 
-template<typename T>
+template<typename OutputType, typename InputType>
 class SolutionRunner {
-    std::vector<ISolution<T>*> _solutions;
+    std::vector<ISolution<OutputType, InputType>*> _solutions;
 
     public:
-        void Add(ISolution<T>* solution) {
+        void Add(ISolution<OutputType, InputType>* solution) {
             _solutions.push_back(solution);
         }
 
-        void Run(T context) {
-            for (var it = _solutions.cbegin(); it != _solutions.cend(); it++) {
-                ISolution<T>* solution = *it;
+        void Run(InputType context, std::function<void(OutputType, void*)> finishDelegate) {
+            for (var solution : _solutions) {
                 solution->SetContext(context);
-                solution->Run();
+                
+                OutputType result = solution->Run();
+                finishDelegate(result, this);
             }
         }
 };
