@@ -5,25 +5,20 @@
 #include "Solutions.ArrayBased.h"
 #include "Solutions.StackBased.h"
 
-// typedef void (*SolutionDelegate)(std::string& parantheses);
-// void Solution_ArrayBased(std::string& parantheses);
-// void Solution_StackBased(std::string& parantheses);
-
 int main() {
     std::vector<std::string> parantheses;
     parantheses.push_back("((()))()");
 
-    SolutionList(Context) solutions;
-    solutions.push_back(new Solution_ArrayBased());
-    solutions.push_back(new Solution_StackBased());
-
-    Helpers_SetSolutionsList(solutions);
+    SolutionRunner<Context> solutions;
+    solutions.Add(new Solution_ArrayBased());
+    solutions.Add(new Solution_StackBased());
 
     for (var it1 = parantheses.cbegin(); it1 != parantheses.cend(); it1++) {
+        const std::string& data = *it1;
+        
         Context context;
-        context.Parantheses = *it1;
+        context.Parantheses = data;
 
-        Helpers_SetSolutionsContext(context);
-        Helpers_RunSolutions(context);
+        solutions.Run(context);
     }
 }
