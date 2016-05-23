@@ -5,10 +5,10 @@
 #include "Solutions.ArrayBased.h"
 #include "Solutions.StackBased.h"
 
-void SolutionFinished(BoolReturn result, void* solutionInstance) {
+void SolutionFinished(BoolReturn result, ISolution<BoolReturn, Context>& solutionInstance) {
     std::cout
-        << "Finished: " << typeid(solutionInstance).name()
-        << result.IsTrue
+        << "Finished: " << solutionInstance.About()
+        << (result.IsTrue ? " true" : " false")
         << result.Message
         << std::endl;
 }

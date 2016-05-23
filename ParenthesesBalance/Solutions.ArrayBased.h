@@ -1,4 +1,6 @@
 class Solution_ArrayBased : public ISolution<BoolReturn, Context> {
+    IMPLEMENT_RTTI
+
     BoolReturn Run() {
         BoolReturn returnValue;
         

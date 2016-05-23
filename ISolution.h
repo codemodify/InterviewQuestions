@@ -4,6 +4,11 @@
 #include <map>
 #include <functional>
 
+#include <exception>
+#include <iostream>
+#include <cxxabi.h>
+
+
 #define var auto
 
 struct BoolReturn {
@@ -16,12 +21,22 @@ struct BoolReturn {
     }
 };
 
+#define IMPLEMENT_RTTI                                      \
+    std::string About() {                                   \
+        std::string nameWithNoise = typeid(this).name();    \
+        return nameWithNoise.substr(3);                     \
+    }
+
 template<typename OutputType, typename InputType>
 class ISolution {
     public:
         void SetContext(InputType newContext) {
             _context = newContext;
         }
+
+        virtual std::string About() = 0; //{
+        //      return typeid(this).name();
+        // }
 
         virtual OutputType Run() = 0;
         
@@ -38,12 +53,12 @@ class SolutionRunner {
             _solutions.push_back(solution);
         }
 
-        void Run(InputType context, std::function<void(OutputType, void*)> finishDelegate) {
+        void Run(InputType context, std::function<void(OutputType, ISolution<OutputType, InputType>&)> finishDelegate) {
             for (var solution : _solutions) {
                 solution->SetContext(context);
                 
                 OutputType result = solution->Run();
-                finishDelegate(result, this);
+                finishDelegate(result, *solution);
             }
         }
 };
