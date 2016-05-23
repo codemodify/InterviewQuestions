@@ -4,11 +4,6 @@
 #include <map>
 #include <functional>
 
-#include <exception>
-#include <iostream>
-#include <cxxabi.h>
-
-
 #define var auto
 
 struct BoolReturn {
@@ -21,10 +16,11 @@ struct BoolReturn {
     }
 };
 
-#define IMPLEMENT_RTTI                                      \
-    std::string About() {                                   \
-        std::string nameWithNoise = typeid(this).name();    \
-        return nameWithNoise.substr(3);                     \
+// NEVER, EVER do macros. I do them because I'm cool
+#define IMPLEMENT_RTTI \
+    std::string About() { \
+        std::string nameWithNoise = typeid(this).name(); \
+        return nameWithNoise.substr(3); \
     }
 
 template<typename OutputType, typename InputType>
