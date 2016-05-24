@@ -7,9 +7,9 @@
 
 void SolutionFinished(BoolReturn result, ISolution<BoolReturn, Context>& solutionInstance) {
     std::cout
-        << "Finished: " << solutionInstance.About()
-        << (result.IsTrue ? " true" : " false")
-        << result.Message
+        << "\t" << solutionInstance.About()
+        << "\t" << (result.IsTrue ? " true" : " false")
+        << "\t" << result.Message
         << std::endl;
 }
 
@@ -18,7 +18,8 @@ int main() {
     parantheses.push_back("((()))()");
     parantheses.push_back(")(()))((");
     parantheses.push_back("()()))))");
-    parantheses.push_back("((()))(()");
+    parantheses.push_back("((()))()");
+    parantheses.push_back("()(()");
 
     SolutionRunner<BoolReturn, Context> solutions;
     solutions.Add(new Solution_ArrayBased());
@@ -28,6 +29,7 @@ int main() {
         Context context;
         context.Parantheses = item;
 
+        std::cout << "Running: " << context.GetContextAsStringToDisplay() << std::endl;
         solutions.Run(context, SolutionFinished);
     }
 }
